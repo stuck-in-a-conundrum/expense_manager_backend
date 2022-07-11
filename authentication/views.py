@@ -77,10 +77,11 @@ class UserProfileView(generics.RetrieveAPIView, mixins.ListModelMixin):
         return Response(serializer.data, status=status.HTTP_200_OK)
 # Create your views here.
 
-class GetUserList(generics.RetrieveAPIView, mixins.ListModelMixin):
+class GetUserList(generics.ListCreateAPIView):
+    queryset = User.objects.all()
     serializer_class = UserSerializer
-    def get(self,request):
-        users=User.objects.values
-        queryset = users
-        serializer = UserSerializer(queryset)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    def get_queryset(self):
+        return User.objects.all()
+        #queryset = users
+        
+        #return Response(users, status=status.HTTP_200_OK)

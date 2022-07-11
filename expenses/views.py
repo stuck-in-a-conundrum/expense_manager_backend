@@ -101,6 +101,7 @@ class ExpenseCreateView(generics.GenericAPIView):
 
 class SavingsGetList(generics.GenericAPIView):
     permission_classes = (permissions.IsAuthenticated, )
+    serializer_class = SavingSerializer
     queryset = Savings.objects.all()
     def get(self, request):
         savings=Savings.objects.filter(owner=request.user)
