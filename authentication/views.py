@@ -37,8 +37,7 @@ class LoginView(generics.GenericAPIView):
         else:
             return Response({
                 'non_field_errors': 
-                    "Invalid credentials or the user does not exist!"
-                
+                    "Invalid credentials or the user does not exist!"  
             }, status=status.HTTP_400_BAD_REQUEST)
 
 class RegisterView(generics.GenericAPIView):
@@ -57,7 +56,8 @@ class RegisterView(generics.GenericAPIView):
             user = User.objects.get(username__exact=request.data.get('username'))
             token = create_auth_token(user)
             return Response({
-                'token': token.key
+                'token': token.key,
+                'success': 'Account created successfully'
             }, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -76,3 +76,11 @@ class UserProfileView(generics.RetrieveAPIView, mixins.ListModelMixin):
         serializer = UserSerializer(queryset)
         return Response(serializer.data, status=status.HTTP_200_OK)
 # Create your views here.
+
+class GetUserList(generics.RetrieveAPIView, mixins.ListModelMixin):
+    serializer_class = UserSerializer
+    def get(self,request):
+        users=User.objects.values
+        queryset = users
+        serializer = UserSerializer(queryset)
+        return Response(serializer.data, status=status.HTTP_200_OK)
